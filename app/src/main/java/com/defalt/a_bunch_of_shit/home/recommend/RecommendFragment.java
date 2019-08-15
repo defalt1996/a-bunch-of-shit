@@ -8,16 +8,18 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.defalt.a_bunch_of_shit.R;
+import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
 import com.defalt.a_bunch_of_shit.home.bean.AppBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class RecommendFragment extends Fragment {
+public class RecommendFragment extends Fragment implements RecommendContract, SwipeRefreshLayout.OnRefreshListener {
 
     private RecommendRVAdapter recommendRVAdapter;
     private RecyclerView recyclerView;
@@ -63,4 +65,18 @@ public class RecommendFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void getMovieInTheaterSuccess(List<Subjects> subjects) {
+
+    }
+
+    @Override
+    public void getMovieInTheaterFailed() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
 }
