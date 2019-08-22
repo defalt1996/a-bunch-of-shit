@@ -17,9 +17,10 @@ public interface DoubanAPI {
     @GET("v2/movie/in_theaters")
     Observable<Root> getMovieInTheaters(@Query("city")String city, @Query("apikey") String apikey, @Query("start") int start, @Query("count") int count);
 
-    @GET("v2/movie/comming_soon")
-    Observable<Root> getMovieCommingSoon(@Query("city")String city, @Query("apikey") String apikey, @Query("start") int start, @Query("count") int count);
+    @GET("v2/movie/coming_soon")
+    Observable<Root> getMovieComingSoon(@Query("apikey") String apikey, @Query("start") int start, @Query("count") int count);
 
-
+    @GET("v2/movie/weekly")
+    Observable<Root> getMovieWeekly(@Query("apikey") String apikey);
 
 }

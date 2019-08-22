@@ -12,16 +12,33 @@ public class Subjects {
 
     private Rating rating;
     private List<String> genres;
+
+    public String getMainland_pubdate() {
+        return mainland_pubdate;
+    }
+
+    public void setMainland_pubdate(String mainland_pubdate) {
+        this.mainland_pubdate = mainland_pubdate;
+    }
+
+    public List<String> getPubdates() {
+        return pubdates;
+    }
+
+    public void setPubdates(List<String> pubdates) {
+        this.pubdates = pubdates;
+    }
+
     private String title;
     private List<Casts> casts;
     private List<String> durations;
     private int collect_count;
-    private Date mainland_pubdate;
+    private String mainland_pubdate;
     private boolean has_video;
     private String original_title;
     private String subtype;
     private List<Directors> directors;
-    private List<Date> pubdates;
+    private List<String> pubdates;
     private String year;
     private Images images;
     private String alt;
@@ -68,12 +85,6 @@ public class Subjects {
         return collect_count;
     }
 
-    public void setMainland_pubdate(Date mainland_pubdate) {
-        this.mainland_pubdate = mainland_pubdate;
-    }
-    public Date getMainland_pubdate() {
-        return mainland_pubdate;
-    }
 
     public void setHas_video(boolean has_video) {
         this.has_video = has_video;
@@ -101,13 +112,6 @@ public class Subjects {
     }
     public List<Directors> getDirectors() {
         return directors;
-    }
-
-    public void setPubdates(List<Date> pubdates) {
-        this.pubdates = pubdates;
-    }
-    public List<Date> getPubdates() {
-        return pubdates;
     }
 
     public void setYear(String year) {

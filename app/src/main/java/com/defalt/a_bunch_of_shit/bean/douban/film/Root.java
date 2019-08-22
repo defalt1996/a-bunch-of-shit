@@ -4,6 +4,8 @@ package com.defalt.a_bunch_of_shit.bean.douban.film;
  *  Time: 2019/8/15 16:17
  */
 
+import com.defalt.a_bunch_of_shit.bean.douban.film.recommend_subjects.RankSubjects;
+
 import java.util.List;
 
 public class Root {
@@ -12,6 +14,7 @@ public class Root {
     private int start;
     private int total;
     private List<Subjects> subjects;
+    private List<RankSubjects> rankSubjects;
     private String title;
 
     public void setCount(int count) {
@@ -55,4 +58,11 @@ public class Root {
     }
 
 
+    public List<RankSubjects> getRankSubjects() {
+        return rankSubjects;
+    }
+
+    public void setRankSubjects(List<RankSubjects> rankSubjects) {
+        this.rankSubjects = rankSubjects;
+    }
 }

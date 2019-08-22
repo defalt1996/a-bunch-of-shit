@@ -61,9 +61,9 @@ public class RecommendRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case TYPE_BANNER_TOP:
                 return new TopBannerViewHolder(layoutInflater.inflate(R.layout.item_home_recommend_topbanner, parent, false));
             case TYPE_CATEGORY:
-                return new CategoryViewHolder(layoutInflater.inflate(R.layout.item_home_recommend_category, parent, false));
+                return new CategoryViewHolder(layoutInflater.inflate(R.layout.item_movie_homepage_category, parent, false));
             case TYPE_APP:
-                return new SingleAppViewHolder(layoutInflater.inflate(R.layout.item_home_recommend_single_app ,parent , false));
+                return new SingleAppViewHolder(layoutInflater.inflate(R.layout.item_moive_home_theater,parent , false));
         }
         return null;
 
@@ -97,6 +97,7 @@ public class RecommendRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             bannerList.add("https://s2.ax1x.com/2019/07/23/eivIOS.png");
             bannerList.add("https://s2.ax1x.com/2019/07/23/eivTeg.png");
             topBanner.setImages(bannerList);
+
             topBanner.start();
         }
     }
@@ -110,11 +111,6 @@ public class RecommendRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            button_1 = itemView.findViewById(R.id.btn_category_1);
-            button_2 = itemView.findViewById(R.id.btn_category_2);
-            button_3 = itemView.findViewById(R.id.btn_category_3);
-            button_4 = itemView.findViewById(R.id.btn_category_4);
-            button_5 = itemView.findViewById(R.id.btn_category_5);
         }
     }
 

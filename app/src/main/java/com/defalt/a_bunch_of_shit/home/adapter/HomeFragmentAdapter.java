@@ -15,6 +15,8 @@ import com.defalt.a_bunch_of_shit.home.essential.EssentialFragment;
 import com.defalt.a_bunch_of_shit.home.freefiction.FreeFictionFragment;
 import com.defalt.a_bunch_of_shit.home.recommend.RecommendFragment;
 
+import me.drakeet.multitype.Items;
+
 
 public class HomeFragmentAdapter extends FragmentPagerAdapter {
 
@@ -23,6 +25,7 @@ public class HomeFragmentAdapter extends FragmentPagerAdapter {
     public HomeFragmentAdapter(@NonNull FragmentManager fm, String... titles) {
         super(fm);
         mTitles = titles;
+
     }
 
     @NonNull

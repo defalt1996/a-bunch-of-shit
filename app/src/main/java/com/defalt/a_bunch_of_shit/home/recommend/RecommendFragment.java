@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -13,16 +16,33 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.defalt.a_bunch_of_shit.R;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
+import com.defalt.a_bunch_of_shit.bean.douban.film.recommend_subjects.RankSubjects;
+import com.defalt.a_bunch_of_shit.bean.douban.multitype.BannerHomePageAll;
+import com.defalt.a_bunch_of_shit.bean.douban.multitype.CategoryTitleAll;
+import com.defalt.a_bunch_of_shit.bean.douban.multitype.EmptyValue;
 import com.defalt.a_bunch_of_shit.home.bean.AppBean;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.BannerHomepageViewBinder;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.CategoryTitleViewBinder;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.RankMovieViewBinder;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.RankTitleViewBinder;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TabTitleViewBinder;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TheaterMovieViewBinder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.drakeet.multitype.ClassLinker;
+import me.drakeet.multitype.ItemViewBinder;
+import me.drakeet.multitype.Items;
+import me.drakeet.multitype.MultiTypeAdapter;
 
-public class RecommendFragment extends Fragment implements RecommendContract, SwipeRefreshLayout.OnRefreshListener {
 
-    private RecommendRVAdapter recommendRVAdapter;
+public class RecommendFragment extends Fragment implements RecommendContract.View, SwipeRefreshLayout.OnRefreshListener {
+
+
     private RecyclerView recyclerView;
+    private MultiTypeAdapter adapter;
+    private RecommendPresenter recommendPresenter;
 
     public RecommendFragment() {
         // Required empty public constructor
@@ -44,39 +64,115 @@ public class RecommendFragment extends Fragment implements RecommendContract, Sw
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recommendPresenter = new RecommendPresenter(this);
+        recommendPresenter.loadPage();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_recommend, container, false);
         recyclerView = view.findViewById(R.id.rv_recommend);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<AppBean> appBeanList = new ArrayList<>();
-        for (int i=0; i<10; i++){
-            AppBean bean = new AppBean();
-            bean.setName("lallala");
-            bean.setGrade("123");
-            bean.setShortInfo("asdfasdfadfadsfasdf");
-            appBeanList.add(bean);
-        }
-
-        recommendRVAdapter = new RecommendRVAdapter(getActivity(), appBeanList);
-        recyclerView.setAdapter(recommendRVAdapter);
-
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
 
-    @Override
-    public void getMovieInTheaterSuccess(List<Subjects> subjects) {
-
-    }
-
-    @Override
-    public void getMovieInTheaterFailed() {
-
-    }
 
     @Override
     public void onRefresh() {
+
+    }
+
+    @Override
+    public void loadPageSuccessful(final Items items) {
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 12);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (items.get(position) instanceof  BannerHomePageAll){
+                    return 12/1;
+                }
+                if (items.get(position) instanceof CategoryTitleAll){
+                    return 12/1;
+                }
+                if (items.get(position) instanceof Subjects){
+                    return 12/3;
+                }
+                if (items.get(position) instanceof RankSubjects){
+                    return 12/1;
+                }
+                if (items.get(position) instanceof EmptyValue){
+                    return 12/1;
+                }
+
+                return 12;
+            }
+        });
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MultiTypeAdapter();
+        //register one "EmptyValue" for multiple tile
+        adapter.register(EmptyValue.class).to(
+                new TabTitleViewBinder(),
+                new RankTitleViewBinder())
+                .withClassLinker(new ClassLinker<EmptyValue>() {
+                    @NonNull
+                    @Override
+                    public Class<? extends ItemViewBinder<EmptyValue, ?>> index(int position, @NonNull EmptyValue emptyValue) {
+                        if (emptyValue.type == EmptyValue.TAB_TITLE){
+                            return TabTitleViewBinder.class;
+                        }
+                        return RankTitleViewBinder.class;
+                    }
+                });
+        adapter.register(BannerHomePageAll.class, new BannerHomepageViewBinder());
+        adapter.register(CategoryTitleAll.class, new CategoryTitleViewBinder());
+        adapter.register(Subjects.class, new TheaterMovieViewBinder());
+        adapter.register(RankSubjects.class, new RankMovieViewBinder());
+        recyclerView.setAdapter(adapter);
+        adapter.setItems(items);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadPageFailed() {
+
+    }
+
+    @Override
+    public void showAllInTheaterMovie() {
+
+    }
+
+    @Override
+    public void showAllCommingSoonMovie() {
+
+    }
+
+    @Override
+    public void showBanner() {
+
+    }
+
+    @Override
+    public void showMovieCategory() {
+
+    }
+
+    @Override
+    public void showMovieList() {
+
+    }
+
+    @Override
+    public void showMovieDetails() {
+
+    }
+
+    @Override
+    public void showRecommend() {
 
     }
 }
