@@ -50,7 +50,7 @@ public class HomeMainFragment extends SupportFragment {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        viewPager.setAdapter(new HomeFragmentAdapter(getChildFragmentManager(), "home_recommend", "home_essential", "home_freefiction", "home_category"));
+        viewPager.setAdapter(new HomeFragmentAdapter(getChildFragmentManager(), "电影", "电视", "读书", "音乐"));
         tabLayout.setupWithViewPager(viewPager);
     }
 }

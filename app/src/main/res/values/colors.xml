@@ -3,6 +3,7 @@
 
     <color name="theme_yellow">#FFC300</color>
     <!-- <color name="tip_text">#0069A4</color> -->
+    <color name="search_bar">#F4F4F4</color>
     <color name="tip_text">#000000</color>
     <color name="div_line_color">#CCCCCC</color>
     <color name="list_item_selected">#A0DCFF</color>

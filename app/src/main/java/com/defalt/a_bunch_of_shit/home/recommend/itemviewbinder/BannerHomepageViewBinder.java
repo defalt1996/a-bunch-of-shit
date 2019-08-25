@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.defalt.a_bunch_of_shit.R;
 import com.defalt.a_bunch_of_shit.bean.douban.film.BannerHomePage;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.BannerHomePageAll;
@@ -24,9 +23,9 @@ import java.util.List;
 import me.drakeet.multitype.ItemViewBinder;
 
 /*
-* Banner in homepage
-*
-* */
+ * Banner in homepage
+ *
+ * */
 public class BannerHomepageViewBinder extends ItemViewBinder<BannerHomePageAll, BannerHomepageViewBinder.ViewHolder> {
     @NonNull
     @Override
@@ -40,14 +39,15 @@ public class BannerHomepageViewBinder extends ItemViewBinder<BannerHomePageAll, 
         holder.banner.setImageLoader(new GlideImageLoader());
         List<String> imgList = new ArrayList<>();
 
-        for (BannerHomePage banner : item.getBannerHomePageList()){
+        for (BannerHomePage banner : item.getBannerHomePageList()) {
             imgList.add(banner.getImgUrl());
         }
         holder.banner.setImages(imgList);
+        holder.banner.setDelayTime(5000);
         holder.banner.start();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private Banner banner;
 

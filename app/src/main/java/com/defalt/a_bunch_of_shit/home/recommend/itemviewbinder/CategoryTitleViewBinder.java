@@ -7,6 +7,7 @@ package com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,25 +35,43 @@ public class CategoryTitleViewBinder extends ItemViewBinder<CategoryTitleAll, Ca
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull CategoryTitleAll item) {
-        holder.category1.setText(item.getmCategoryTitleList().get(0).getTitle());
-        holder.category2.setText(item.getmCategoryTitleList().get(1).getTitle());
-        holder.category3.setText(item.getmCategoryTitleList().get(2).getTitle());
-        holder.category4.setText(item.getmCategoryTitleList().get(3).getTitle());
+
+        holder.tvSearchMovie.setText("搜电影");
+        holder.tvRankMovie.setText("电影排行");
+        holder.tvGuessMovie.setText("豆瓣猜");
+        holder.tvTop250Movie.setText("Top250");
+
+        holder.ivSearchMovie.setImageResource(R.drawable.title_movie_1);
+        holder.ivRankMovie.setImageResource(R.drawable.title_movie_2);
+        holder.ivGuessMovie.setImageResource(R.drawable.title_movie_3);
+        holder.ivTop250Movie.setImageResource(R.drawable.title_movie_4);
+
+
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView category1;
-        TextView category2;
-        TextView category3;
-        TextView category4;
+        TextView tvSearchMovie;
+        TextView tvRankMovie;
+        TextView tvGuessMovie;
+        TextView tvTop250Movie;
+
+        ImageView ivSearchMovie;
+        ImageView ivRankMovie;
+        ImageView ivGuessMovie;
+        ImageView ivTop250Movie;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.category1 = itemView.findViewById(R.id.category_1);
-            this.category2 = itemView.findViewById(R.id.category_2);
-            this.category3 = itemView.findViewById(R.id.category_3);
-            this.category4 = itemView.findViewById(R.id.category_4);
+            this.tvSearchMovie = itemView.findViewById(R.id.tv_search_movie);
+            this.tvRankMovie = itemView.findViewById(R.id.tv_rank_movie);
+            this.tvGuessMovie = itemView.findViewById(R.id.tv_guess_movie);
+            this.tvTop250Movie = itemView.findViewById(R.id.tv_top250_movie);
+
+            this.ivSearchMovie = itemView.findViewById(R.id.iv_search_movie);
+            this.ivRankMovie = itemView.findViewById(R.id.iv_rank_movie);
+            this.ivGuessMovie = itemView.findViewById(R.id.iv_guess_movie);
+            this.ivTop250Movie = itemView.findViewById(R.id.iv_top250_movie);
         }
     }
 }

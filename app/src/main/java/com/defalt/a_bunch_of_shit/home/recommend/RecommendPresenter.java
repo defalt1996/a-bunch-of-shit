@@ -47,18 +47,11 @@ public class RecommendPresenter implements RecommendContract.Presenter {
                 //Generate category title and Banner
                 BannerHomePageAll bannerHomePageAll = new BannerHomePageAll();
                 List<BannerHomePage> bannerHomePageList = new ArrayList<>();
-                bannerHomePageList.add(new BannerHomePage("找电影", "https://s2.ax1x.com/2019/07/23/eivIOS.png"));
-                bannerHomePageList.add(new BannerHomePage("影", "https://s2.ax1x.com/2019/07/23/eivIOS.png"));
-                bannerHomePageList.add(new BannerHomePage("找影", "https://s2.ax1x.com/2019/07/23/eivIOS.png"));
+                bannerHomePageList.add(new BannerHomePage("找电影", "http://img.defalt.top/img/home_banner.jpg"));
+                bannerHomePageList.add(new BannerHomePage("影", "http://img.defalt.top/img/home_banner.jpg"));
                 bannerHomePageAll.setBannerHomePageList(bannerHomePageList);
 
                 CategoryTitleAll categoryTitleAll = new CategoryTitleAll();
-                List<CategoryTitle> categoryTitleList = new ArrayList<>();
-                categoryTitleList.add(new CategoryTitle("找电影", "http://pvwtvm2a3.bkt.clouddn.com/img/title_movie_4.png"));
-                categoryTitleList.add(new CategoryTitle("找电影", "http://pvwtvm2a3.bkt.clouddn.com/img/title_movie_4.png"));
-                categoryTitleList.add(new CategoryTitle("找电影", "http://pvwtvm2a3.bkt.clouddn.com/img/title_movie_4.png"));
-                categoryTitleList.add(new CategoryTitle("找电影", "http://pvwtvm2a3.bkt.clouddn.com/img/title_movie_4.png"));
-                categoryTitleAll.setmCategoryTitleList(categoryTitleList);
 
                 items.add(bannerHomePageAll);
                 items.add(categoryTitleAll);
@@ -83,7 +76,6 @@ public class RecommendPresenter implements RecommendContract.Presenter {
                         throwable.printStackTrace();
                     }
                 });
-
 
     }
 
