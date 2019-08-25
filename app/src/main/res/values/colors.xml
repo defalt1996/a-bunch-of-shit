@@ -1,7 +1,7 @@
 <resources>
     <color name="main_bg">#EEEEEE</color>
 
-    <color name="theme_yellow">#FFC300</color>
+    <color name="theme_green">#54B44B</color>
     <!-- <color name="tip_text">#0069A4</color> -->
     <color name="search_bar">#F4F4F4</color>
     <color name="tip_text">#000000</color>

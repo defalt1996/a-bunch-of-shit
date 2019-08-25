@@ -55,9 +55,9 @@ public class RecommendPresenter implements RecommendContract.Presenter {
 
                 items.add(bannerHomePageAll);
                 items.add(categoryTitleAll);
-                items.add(new EmptyValue(EmptyValue.TAB_TITLE));
+                items.add(new EmptyValue(EmptyValue.TAB_TITLE, root.getTotal()));
                 items.addAll(root.getSubjects());
-                items.add(new EmptyValue(EmptyValue.TAB_TITLE));
+                items.add(new EmptyValue(EmptyValue.TAB_TITLE, root2.getTotal()));
                 items.addAll(root2.getSubjects());
 //                items.addAll(root3.getRankSubjects());
 

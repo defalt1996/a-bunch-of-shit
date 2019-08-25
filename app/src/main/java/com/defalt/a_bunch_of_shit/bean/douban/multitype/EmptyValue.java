@@ -15,9 +15,11 @@ public class EmptyValue {
     public static final int RECOMMEND_TITLE = 4;
 
     public int type;
+    public int amount;
 
-    public EmptyValue(int type) {
+    public EmptyValue(int type, int amount) {
         this.type = type;
+        this.amount = amount;
     }
 
 }
