@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
     <ImageView
         android:id="@+id/theater_image"
         android:layout_width="match_parent"
@@ -13,5 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        />
+    <com.defalt.a_bunch_of_shit.widget.StarMarkView
+        android:id="@+id/movie_marks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         />
 </LinearLayout>

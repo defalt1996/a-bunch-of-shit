@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.defalt.a_bunch_of_shit.R;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
+import com.defalt.a_bunch_of_shit.widget.StarMarkView;
 
 import me.drakeet.multitype.ItemViewBinder;
 
@@ -35,17 +36,20 @@ public class TheaterMovieViewBinder extends ItemViewBinder<Subjects, TheaterMovi
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Subjects item) {
         holder.title.setText(item.getTitle());
         Glide.with(holder.img.getContext()).load(item.getImages().getSmall()).into(holder.img);
+        holder.marks.setParams(item.getRating().getAverage(), R.drawable.start_full, R.drawable.start_half, R.drawable.star_none);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView img;
         private TextView title;
+        private StarMarkView marks;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.img = itemView.findViewById(R.id.theater_image);
             this.title = itemView.findViewById(R.id.theater_title);
+            this.marks = itemView.findViewById(R.id.movie_marks);
         }
     }
 }
