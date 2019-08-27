@@ -27,6 +27,7 @@ import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.RankMovieViewBin
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.RankTitleViewBinder;
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TabTitleViewBinder;
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TheaterMovieViewBinder;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
     private RecyclerView recyclerView;
     private MultiTypeAdapter adapter;
     private RecommendPresenter recommendPresenter;
+    private Items mItems;
 
     public RecommendFragment() {
         // Required empty public constructor
@@ -88,6 +90,8 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
     @Override
     public void loadPageSuccessful(final Items items) {
 
+        mItems = items;
+
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 12);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -114,8 +118,16 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MultiTypeAdapter();
         //register one "EmptyValue" for multiple tile
+        TabTitleViewBinder tabTitleViewBinder = new TabTitleViewBinder();
+        tabTitleViewBinder.setOntabChangedListener(new TabTitleViewBinder.OntabChangedListener() {
+            @Override
+            public void onChanged(boolean isIntheater) {
+                recommendPresenter.tabInTheaterComingSoon(isIntheater);
+            }
+        });
+
         adapter.register(EmptyValue.class).to(
-                new TabTitleViewBinder(),
+                tabTitleViewBinder,
                 new RankTitleViewBinder())
                 .withClassLinker(new ClassLinker<EmptyValue>() {
                     @NonNull
@@ -132,7 +144,21 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
         adapter.register(Subjects.class, new TheaterMovieViewBinder());
         adapter.register(RankSubjects.class, new RankMovieViewBinder());
         recyclerView.setAdapter(adapter);
-        adapter.setItems(items);
+        adapter.setItems(mItems);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void tabInTheaterComingSoon(List<Subjects> subjectsList) {
+        //Replace data
+        int j = 0;
+        for (int i=0; i< mItems.size(); i++){
+            if (mItems.get(i) instanceof Subjects){
+                mItems.set(i, subjectsList.get(j));
+                j ++;
+            }
+        }
+        adapter.setItems(mItems);
         adapter.notifyDataSetChanged();
     }
 

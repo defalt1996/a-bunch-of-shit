@@ -18,6 +18,8 @@ public interface RecommendContract {
 
         void loadPageSuccessful(Items items);
 
+        void tabInTheaterComingSoon(List<Subjects> subjectsList);
+
         void loadPageFailed();
 
         void showAllInTheaterMovie();
@@ -38,6 +40,8 @@ public interface RecommendContract {
     interface Presenter {
 
         void loadPage();
+
+        void tabInTheaterComingSoon(boolean isInTheater);
 
         void openAllInTheaterMovie();
 

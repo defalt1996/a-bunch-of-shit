@@ -26,6 +26,9 @@ import me.drakeet.multitype.ItemViewBinder;
 *
 * */
 public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewBinder.ViewHolder> {
+
+    OntabChangedListener ontabChangedListener;
+
     @NonNull
     @Override
     protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
@@ -42,7 +45,7 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
     }
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvInTheater;
         TextView tvComingSoon;
@@ -63,18 +66,29 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
                 @Override
                 public void onClick(View view) {
                     if (view == tvInTheater){
+
                         indicatorInTheater.setVisibility(View.VISIBLE);
                         indicatorComingSoon.setVisibility(View.INVISIBLE);
                         isInTheater = true;
+                        ontabChangedListener.onChanged(isInTheater);
+
                     }else if (view == tvComingSoon){
                         indicatorInTheater.setVisibility(View.INVISIBLE);
                         indicatorComingSoon.setVisibility(View.VISIBLE);
                         isInTheater = false;
+                        ontabChangedListener.onChanged(isInTheater);
                     }
                 }
             };
             tvInTheater.setOnClickListener(listener);
             tvComingSoon.setOnClickListener(listener);
         }
+    }
+    public interface OntabChangedListener{
+        void onChanged(boolean isIntheater);
+    }
+
+    public void setOntabChangedListener(OntabChangedListener ontabChangedListener) {
+        this.ontabChangedListener = ontabChangedListener;
     }
 }

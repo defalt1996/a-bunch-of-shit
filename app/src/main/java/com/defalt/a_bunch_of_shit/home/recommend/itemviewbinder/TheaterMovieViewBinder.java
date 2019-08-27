@@ -48,7 +48,7 @@ public class TheaterMovieViewBinder extends ItemViewBinder<Subjects, TheaterMovi
                 .setAutoPlayAnimations(true)
                 .build();
         holder.img.setController(controller);
-        holder.marksStar.setParams(item.getRating().getAverage(), R.drawable.start_full, R.drawable.start_half, R.drawable.star_none);
+            holder.marksStar.setParams(item.getRating().getAverage(), R.drawable.start_full, R.drawable.start_half, R.drawable.star_none);
         if (item.getRating().getAverage() != 0){
             holder.marksRating.setText(item.getRating().getAverage()+ "");
         }else {
