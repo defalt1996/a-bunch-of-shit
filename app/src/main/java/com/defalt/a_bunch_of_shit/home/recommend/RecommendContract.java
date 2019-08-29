@@ -14,6 +14,11 @@ import me.drakeet.multitype.Items;
 
 public interface RecommendContract {
 
+    int SEE_ALL_IN_THEATER = 1;
+    int SEE_ALL_COMING_SOON = 2;
+    int SEE_ALL_USBOX = 3;
+    int SEE_ALL_RANK = 4;
+
     interface View {
 
         void loadPageSuccessful(Items items);
@@ -43,9 +48,9 @@ public interface RecommendContract {
 
         void tabInTheaterComingSoon(boolean isInTheater);
 
-        void openAllInTheaterMovie();
-
-        void openAllCommingSoonMovie();
+//        void openAllInTheaterMovie();
+        void openAllCinemaMovie( int type);
+//        void openAllCommingSoonMovie();
 
         void openBanner();
 

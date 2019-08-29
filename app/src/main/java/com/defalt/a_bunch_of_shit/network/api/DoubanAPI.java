@@ -5,6 +5,7 @@ package com.defalt.a_bunch_of_shit.network.api;
  */
 
 import com.defalt.a_bunch_of_shit.bean.douban.film.Root;
+import com.defalt.a_bunch_of_shit.bean.douban.film.us_box.RootUsBox;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -19,6 +20,10 @@ public interface DoubanAPI {
 
     @GET("v2/movie/coming_soon")
     Observable<Root> getMovieComingSoon(@Query("apikey") String apikey, @Query("start") int start, @Query("count") int count);
+
+    //北美榜单
+    @GET("v2/movie/us_box")
+    Observable<RootUsBox> getMovieUSBox (@Query("apikey") String apikey,@Query("start") int start, @Query("count") int count);
 
     @GET("v2/movie/weekly")
     Observable<Root> getMovieWeekly(@Query("apikey") String apikey);

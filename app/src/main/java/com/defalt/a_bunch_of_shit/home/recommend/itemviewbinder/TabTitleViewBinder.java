@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.defalt.a_bunch_of_shit.R;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.EmptyValue;
+import com.defalt.a_bunch_of_shit.home.recommend.RecommendContract;
 
 import me.drakeet.multitype.ItemViewBinder;
 
@@ -50,6 +51,7 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
         TextView tvInTheater;
         TextView tvComingSoon;
         TextView tvSeeAll;
+        ImageView ivSeeAll;
         View indicatorInTheater;
         View indicatorComingSoon;
         boolean isInTheater;
@@ -59,8 +61,11 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
             tvInTheater = itemView.findViewById(R.id.tv_in_theater);
             tvComingSoon = itemView.findViewById(R.id.tv_coming_soon);
             tvSeeAll = itemView.findViewById(R.id.tv_movie_cinema_seeall);
+            ivSeeAll = itemView.findViewById(R.id.iv_ic_seeall);
+
             indicatorInTheater = itemView.findViewById(R.id.indicator_in_theater);
             indicatorComingSoon = itemView.findViewById(R.id.indicator_coming_soon);
+
             isInTheater = true;
             final View.OnClickListener  listener = new View.OnClickListener() {
                 @Override
@@ -77,6 +82,12 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
                         indicatorComingSoon.setVisibility(View.VISIBLE);
                         isInTheater = false;
                         ontabChangedListener.onChanged(isInTheater);
+                    }else if (view == tvSeeAll || view == ivSeeAll){
+                        if (isInTheater){
+                            ontabChangedListener.onClickSeeAll(RecommendContract.SEE_ALL_IN_THEATER);
+                        }else {
+                            ontabChangedListener.onClickSeeAll(RecommendContract.SEE_ALL_COMING_SOON);
+                        }
                     }
                 }
             };
@@ -86,9 +97,12 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
     }
     public interface OntabChangedListener{
         void onChanged(boolean isIntheater);
+        void onClickSeeAll(int type);
     }
 
     public void setOntabChangedListener(OntabChangedListener ontabChangedListener) {
         this.ontabChangedListener = ontabChangedListener;
     }
+
+
 }

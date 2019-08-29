@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.defalt.a_bunch_of_shit.R;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
 import com.defalt.a_bunch_of_shit.bean.douban.film.recommend_subjects.RankSubjects;
+import com.defalt.a_bunch_of_shit.bean.douban.film.us_box.Subject;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.BannerHomePageAll;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.CategoryTitleAll;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.EmptyValue;
@@ -27,6 +28,8 @@ import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.RankMovieViewBin
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.RankTitleViewBinder;
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TabTitleViewBinder;
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TheaterMovieViewBinder;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TitleViewBinder;
+import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.UsBoxViewBinder;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -105,6 +108,9 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
                 if (items.get(position) instanceof Subjects){
                     return 12/3;
                 }
+                if (items.get(position) instanceof Subject){
+                    return 12/3;
+                }
                 if (items.get(position) instanceof RankSubjects){
                     return 12/1;
                 }
@@ -124,10 +130,16 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
             public void onChanged(boolean isIntheater) {
                 recommendPresenter.tabInTheaterComingSoon(isIntheater);
             }
+
+            @Override
+            public void onClickSeeAll(int type) {
+                recommendPresenter.openAllCinemaMovie(type);
+            }
         });
 
         adapter.register(EmptyValue.class).to(
                 tabTitleViewBinder,
+                new TitleViewBinder(),
                 new RankTitleViewBinder())
                 .withClassLinker(new ClassLinker<EmptyValue>() {
                     @NonNull
@@ -135,6 +147,8 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
                     public Class<? extends ItemViewBinder<EmptyValue, ?>> index(int position, @NonNull EmptyValue emptyValue) {
                         if (emptyValue.type == EmptyValue.TAB_TITLE){
                             return TabTitleViewBinder.class;
+                        }else if (emptyValue.type == EmptyValue.USBOX_TITLE){
+                            return TitleViewBinder.class;
                         }
                         return RankTitleViewBinder.class;
                     }
@@ -142,6 +156,7 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
         adapter.register(BannerHomePageAll.class, new BannerHomepageViewBinder());
         adapter.register(CategoryTitleAll.class, new CategoryTitleViewBinder());
         adapter.register(Subjects.class, new TheaterMovieViewBinder());
+        adapter.register(Subject.class, new UsBoxViewBinder());
         adapter.register(RankSubjects.class, new RankMovieViewBinder());
         recyclerView.setAdapter(adapter);
         adapter.setItems(mItems);

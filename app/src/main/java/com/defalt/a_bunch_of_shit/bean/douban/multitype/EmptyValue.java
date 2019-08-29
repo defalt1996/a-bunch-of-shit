@@ -8,7 +8,7 @@ public class EmptyValue {
 
     public static final int TAB_TITLE = 1;
 
-    public static final int HOT_TITLE = 2;
+    public static final int USBOX_TITLE = 2;
 
     public static final int LIST_TITLE = 3;
 
@@ -16,10 +16,12 @@ public class EmptyValue {
 
     public int type;
     public int amount;
+    public String title;
 
-    public EmptyValue(int type, int amount) {
+    public EmptyValue(int type,String title, int amount) {
         this.type = type;
         this.amount = amount;
+        this.title = title;
     }
 
 }

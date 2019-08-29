@@ -10,6 +10,8 @@ import com.defalt.a_bunch_of_shit.bean.douban.film.BannerHomePage;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Root;
 import com.defalt.a_bunch_of_shit.bean.douban.film.CategoryTitle;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
+import com.defalt.a_bunch_of_shit.bean.douban.film.us_box.RootUsBox;
+import com.defalt.a_bunch_of_shit.bean.douban.film.us_box.Subject;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.BannerHomePageAll;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.CategoryTitleAll;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.EmptyValue;
@@ -36,7 +38,6 @@ public class RecommendPresenter implements RecommendContract.Presenter {
     private  Items items;
     private List<Subjects> inTheaterItemList;
 
-
     public RecommendPresenter(@NonNull RecommendContract.View homepage) {
         mHomePageView = homepage;
     }
@@ -44,12 +45,13 @@ public class RecommendPresenter implements RecommendContract.Presenter {
     @Override
     public void loadPage() {
         Observable<Root> observable1 = Network.getDoubanAPI().getMovieInTheaters("北京", DoubanAPI.apikey, 0, 6);
-//        Observable<Root> observable2 = Network.getDoubanAPI().getMovieComingSoon(DoubanAPI.apikey, 0, 6);
-        Observable<Root> observable3 = Network.getDoubanAPI().getMovieWeekly(DoubanAPI.apikey);
+//        Observable<RootUsBox> observable2 = Network.getDoubanAPI().getMovieComingSoon(DoubanAPI.apikey, 0, 6);
+//        Observable<RootUsBox> observable3 = Network.getDoubanAPI().getMovieWeekly(DoubanAPI.apikey);
+        Observable<RootUsBox> observable2 = Network.getDoubanAPI().getMovieUSBox(DoubanAPI.apikey, 0, 6);
 
-        Disposable disposable = Observable.zip(observable1, observable3, new BiFunction<Root, Root, Items>() {
+        Disposable disposable = Observable.zip(observable1, observable2, new BiFunction<Root, RootUsBox, Items>() {
             @Override
-            public Items apply(Root root, Root root3) throws Exception {
+            public Items apply(Root root, RootUsBox root2) throws Exception {
                 items = new Items();
                 //Generate category title and Banner
                 BannerHomePageAll bannerHomePageAll = new BannerHomePageAll();
@@ -57,20 +59,21 @@ public class RecommendPresenter implements RecommendContract.Presenter {
                 bannerHomePageList.add(new BannerHomePage("找电影", "http://img.defalt.top/img/home_banner.jpg"));
                 bannerHomePageList.add(new BannerHomePage("影", "http://img.defalt.top/img/home_banner.jpg"));
                 bannerHomePageAll.setBannerHomePageList(bannerHomePageList);
-
                 CategoryTitleAll categoryTitleAll = new CategoryTitleAll();
-
-                items.add(bannerHomePageAll);
-                items.add(categoryTitleAll);
-                items.add(new EmptyValue(EmptyValue.TAB_TITLE, root.getTotal()));
-
-                //TODO: 重构缓存inTheater
                 inTheaterItemList = root.getSubjects();
-                items.addAll(root.getSubjects());
-//                items.add(new EmptyValue(EmptyValue.TAB_TITLE, root2.getTotal()));
-//                items.addAll(root2.getSubjects());
-//                items.addAll(root3.getRankSubjects());
 
+                // Top Banner
+                items.add(bannerHomePageAll);
+
+                items.add(categoryTitleAll);
+                items.add(new EmptyValue(EmptyValue.TAB_TITLE,"", root.getTotal()));
+                //TODO: 重构缓存inTheater
+                items.addAll(inTheaterItemList);
+                items.add(new EmptyValue(EmptyValue.USBOX_TITLE, "北美榜单", root2.getSubjects().size()));
+                for (int i = 0; i<6 ; i++){
+                    items.add(root2.getSubjects().get(i).getSubject());
+                }
+//                items.addAll(root3.getRankSubjects());
                 return items;
             }
         }).subscribeOn(Schedulers.io())
@@ -117,14 +120,8 @@ public class RecommendPresenter implements RecommendContract.Presenter {
 
     }
 
-
     @Override
-    public void openAllInTheaterMovie() {
-
-    }
-
-    @Override
-    public void openAllCommingSoonMovie() {
+    public void openAllCinemaMovie(int type) {
 
     }
 
