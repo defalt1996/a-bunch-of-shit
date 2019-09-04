@@ -42,7 +42,6 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
         holder.tvInTheater.setText("影院热映");
         holder.tvComingSoon.setText("即将上映");
         holder.tvSeeAll.setText("全部" + item.amount);
-
     }
 
 
