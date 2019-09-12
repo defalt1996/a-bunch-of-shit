@@ -4,14 +4,16 @@ package com.defalt.a_bunch_of_shit.home.recommend;
  *  Time: 2019/6/13 14:57
  */
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.defalt.a_bunch_of_shit.bean.douban.film.BannerHomePage;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Root;
-import com.defalt.a_bunch_of_shit.bean.douban.film.CategoryTitle;
 import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
+import com.defalt.a_bunch_of_shit.bean.douban.film.top250.Top250Addition;
+import com.defalt.a_bunch_of_shit.bean.douban.film.top250.top250details.Top250Details;
 import com.defalt.a_bunch_of_shit.bean.douban.film.us_box.RootUsBox;
-import com.defalt.a_bunch_of_shit.bean.douban.film.us_box.Subject;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.BannerHomePageAll;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.CategoryTitleAll;
 import com.defalt.a_bunch_of_shit.bean.douban.multitype.EmptyValue;
@@ -22,17 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Function3;
 import io.reactivex.schedulers.Schedulers;
 import me.drakeet.multitype.Items;
 
 public class RecommendPresenter implements RecommendContract.Presenter {
 
+    private static final String TAG = "RecommendPresenter";
     private RecommendContract.View mHomePageView;
     private boolean isInTheater;
     private  Items items;
@@ -42,6 +45,7 @@ public class RecommendPresenter implements RecommendContract.Presenter {
         mHomePageView = homepage;
     }
 
+    //加载基本首页
     @Override
     public void loadPage() {
         Observable<Root> observable1 = Network.getDoubanAPI().getMovieInTheaters("北京", DoubanAPI.apikey, 0, 6);
@@ -91,6 +95,7 @@ public class RecommendPresenter implements RecommendContract.Presenter {
                 });
     }
 
+    // tab --> 切换到即将上映
     @Override
     public void tabInTheaterComingSoon(boolean isInTheater) {
         if (!isInTheater){
@@ -120,6 +125,63 @@ public class RecommendPresenter implements RecommendContract.Presenter {
 
     }
 
+    //
+    @Override
+    public void loadTop250Movie(int page) {
+        int count = 20;
+        int start = page * count;
+        Observable<Root> observableTop250List = Network.getDoubanAPI().getMovieTop250(DoubanAPI.apikey, start, count);
+
+        Disposable disposable = observableTop250List.map(new Function<Root, List<Subjects>>() {
+            @Override
+            public List<Subjects> apply(Root root) throws Exception {
+                return root.getSubjects();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Subjects>>() {
+                    @Override
+                    public void accept(List<Subjects> subjects) throws Exception {
+
+                        mHomePageView.loadTop250InMainPage(subjects);
+                        // 继续添加 内容图banner 以及 最热评论
+                        for (Subjects item : subjects){
+                            loadTop250AdditionsInMainPage(item.getId());
+
+                        }
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+    }
+
+
+    public void loadTop250AdditionsInMainPage(final String movieId){
+
+        Observable<Top250Details> observableTop250 = Network.getDoubanAPI().getMovieTop250Detail(movieId, DoubanAPI.apikey);
+        Disposable disposable = observableTop250
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Top250Details>() {
+                    @Override
+                    public void accept(Top250Details top250Details) throws Exception {
+                        mHomePageView.loadTop250AdditionInMainPage(top250Details);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.d(TAG, "exception id: " + movieId);
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+
+    // 查看全部影片 （正在上映/即将上映 type）
     @Override
     public void openAllCinemaMovie(int type) {
 

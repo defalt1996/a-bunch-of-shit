@@ -44,7 +44,6 @@ public class TabTitleViewBinder extends ItemViewBinder<EmptyValue, TabTitleViewB
         holder.tvSeeAll.setText("全部" + item.amount);
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvInTheater;

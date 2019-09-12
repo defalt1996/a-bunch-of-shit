@@ -5,6 +5,8 @@ package com.defalt.a_bunch_of_shit.bean.douban.film;
  */
 
 
+import com.defalt.a_bunch_of_shit.bean.douban.film.top250.Top250Addition;
+
 import java.util.List;
 import java.util.Date;
 
@@ -43,6 +45,9 @@ public class Subjects {
     private Images images;
     private String alt;
     private String id;
+
+
+
     public void setRating(Rating rating) {
         this.rating = rating;
     }
@@ -141,5 +146,6 @@ public class Subjects {
     public String getId() {
         return id;
     }
+
 
 }

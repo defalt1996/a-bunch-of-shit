@@ -69,4 +69,7 @@ dependencies {
     implementation('me.drakeet.multitype:multitype:3.5.0', {
         exclude group: 'com.android.support'
     })
+
+    //SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 }

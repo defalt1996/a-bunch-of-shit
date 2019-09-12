@@ -7,6 +7,7 @@ package com.defalt.a_bunch_of_shit.home.recommend;
 import android.view.View;
 
 import com.defalt.a_bunch_of_shit.bean.douban.film.Subjects;
+import com.defalt.a_bunch_of_shit.bean.douban.film.top250.top250details.Top250Details;
 
 import java.util.List;
 
@@ -22,6 +23,10 @@ public interface RecommendContract {
     interface View {
 
         void loadPageSuccessful(Items items);
+
+        void loadTop250InMainPage(List<Subjects> top250List);
+
+        void loadTop250AdditionInMainPage(Top250Details top250Details);
 
         void tabInTheaterComingSoon(List<Subjects> subjectsList);
 
@@ -48,9 +53,9 @@ public interface RecommendContract {
 
         void tabInTheaterComingSoon(boolean isInTheater);
 
-//        void openAllInTheaterMovie();
+        void loadTop250Movie(int page);
+
         void openAllCinemaMovie( int type);
-//        void openAllCommingSoonMovie();
 
         void openBanner();
 
