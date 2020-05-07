@@ -2,12 +2,12 @@
 
 <img src="http://img.defalt.top/img/logo.jpg" width="200" height="200" alt="图片描述文字"/>
 
-烂俗的练手App (An application with a bunch of shit for practice) 
+A useless shit for practicing Android development (烂大街的Android练手应用) 
 
-(拿豆瓣API练练手)
+(豆瓣API练练手)
 
 ## 框架
-### 烂三样:
+### 老三样:
 
 **MVP + Rxjava + retrofit**
 
@@ -15,6 +15,6 @@
 
 **Fragmentation**  (方便实现单Activity + 多Fragment)
 
-**Banner** (直接怼进去搞banner)
+**Banner** (搞banner)
 
-**MultiType** (搞复杂主页方便)
+**MultiType** (复杂主页)
