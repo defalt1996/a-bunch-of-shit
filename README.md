@@ -15,6 +15,6 @@ A useless shit for practicing Android development (烂大街的Android练手应�
 
 **Fragmentation**  (方便实现单Activity + 多Fragment)
 
-**Banner** (搞banner)
+**Banner** (方便实现Banner)
 
 **MultiType** (复杂主页)
