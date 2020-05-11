@@ -78,6 +78,7 @@ public class RecommendPresenter implements RecommendContract.Presenter {
                     items.add(root2.getSubjects().get(i).getSubject());
                 }
 //                items.addAll(root3.getRankSubjects());
+                items.add(new EmptyValue(EmptyValue.TOP250_TITLE, "Top250", root2.getSubjects().size()));
                 return items;
             }
         }).subscribeOn(Schedulers.io())
@@ -128,7 +129,7 @@ public class RecommendPresenter implements RecommendContract.Presenter {
     //
     @Override
     public void loadTop250Movie(int page) {
-        int count = 20;
+        int count = 5;
         int start = page * count;
         Observable<Root> observableTop250List = Network.getDoubanAPI().getMovieTop250(DoubanAPI.apikey, start, count);
 

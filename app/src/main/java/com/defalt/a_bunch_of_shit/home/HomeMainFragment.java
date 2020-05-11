@@ -45,6 +45,7 @@ public class HomeMainFragment extends SupportFragment {
 
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
+
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.widget.FrameLayout;
 
 import com.defalt.a_bunch_of_shit.base.BaseActivity;
 import com.defalt.a_bunch_of_shit.base.baseview.MainFragment;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
@@ -20,6 +22,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Logger.addLogAdapter(new AndroidLogAdapter());
 
         //加载fragment
         if (findFragment(MainFragment.class) == null){

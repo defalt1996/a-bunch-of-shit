@@ -34,6 +34,7 @@ import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.TitleViewBinder;
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.Top250MovieViewBinder;
 import com.defalt.a_bunch_of_shit.home.recommend.itemviewbinder.UsBoxViewBinder;
 import com.defalt.a_bunch_of_shit.network.api.DoubanAPI;
+import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -56,6 +57,8 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
     private RecommendPresenter recommendPresenter;
     private Items mItems;
     private List<Top250> top250List;
+
+    private int top250PageIndex = 0;
 
     public RecommendFragment() {
         // Required empty public constructor
@@ -101,8 +104,9 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-                recommendPresenter.loadTop250Movie(0);
-                refreshlayout.finishLoadMore(1000/*,false*/);//传入false表示加载失败
+                recommendPresenter.loadTop250Movie(top250PageIndex);
+                refreshlayout.finishLoadMore(500/*,false*/);//传入false表示加载失败
+
             }
         });
 
@@ -174,6 +178,8 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
                             return TabTitleViewBinder.class;
                         }else if (emptyValue.type == EmptyValue.USBOX_TITLE){
                             return TitleViewBinder.class;
+                        }else if (emptyValue.type == EmptyValue.TOP250_TITLE){
+                            return TitleViewBinder.class;
                         }
                         return RankTitleViewBinder.class;
                     }
@@ -192,6 +198,8 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
     @Override
     public void loadTop250InMainPage(List<Subjects> top250SubjectsList) {
 
+//        Logger.d("length of top250 every load more =" + top250SubjectsList.size() );
+
         for (Subjects item : top250SubjectsList){
             Top250 top250 = new Top250();
             top250.setItem(item);
@@ -199,7 +207,10 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
             top250List.add(top250);
         }
 
-        mItems.addAll(top250List);
+        mItems.addAll(top250List.subList(top250PageIndex * 5, top250List.size()-1));
+
+        top250PageIndex ++ ;
+
         adapter.setItems(mItems);
         adapter.notifyDataSetChanged();
     }
@@ -208,7 +219,7 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
     public void loadTop250AdditionInMainPage(Top250Details top250Details) {
 
         for (Top250 top250 : top250List){
-            if ( !top250.isAdded() && top250.getItem().getId().equals( top250Details.getId())){
+            if ( !top250.isAdded() && top250.getItem().getId().equals( top250Details .getId())){
                 Log.d(TAG, "Set top250 movie addition, top250 id= "+ top250.getItem().getId()+ "  top250Details id = " +top250Details.getId() );
                 //获取3个content img
                 top250.setDetails(top250Details);

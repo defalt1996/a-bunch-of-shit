@@ -31,7 +31,12 @@ public class TitleViewBinder extends ItemViewBinder<EmptyValue, TitleViewBinder.
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull EmptyValue item) {
         holder.title.setText(item.title);
-        holder.tvSeeAll.setText("全部" + item.amount);
+
+        if (item.title.equals("Top250")){
+            holder.tvSeeAll.setVisibility(View.INVISIBLE);
+        }else {
+            holder.tvSeeAll.setText("全部" + item.amount);
+        }
     }
 
 

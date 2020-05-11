@@ -14,6 +14,8 @@ public class EmptyValue {
 
     public static final int RECOMMEND_TITLE = 4;
 
+    public static final int TOP250_TITLE = 5;
+
     public int type;
     public int amount;
     public String title;
